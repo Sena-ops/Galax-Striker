@@ -1,0 +1,638 @@
+{
+	"name": "Folha de eventos 1",
+	"events": [
+		{
+			"eventType": "variable",
+			"name": "Artefatos",
+			"type": "number",
+			"initialValue": "0",
+			"comment": "",
+			"isStatic": false,
+			"isConstant": false,
+			"sid": 864629196111050
+		},
+		{
+			"eventType": "variable",
+			"name": "vida",
+			"type": "number",
+			"initialValue": "100",
+			"comment": "",
+			"isStatic": false,
+			"isConstant": false,
+			"sid": 357515135812365
+		},
+		{
+			"eventType": "block",
+			"conditions": [
+				{
+					"id": "on-start-of-layout",
+					"objectClass": "System",
+					"sid": 478418236809807
+				}
+			],
+			"actions": [
+				{
+					"id": "set-animation",
+					"objectClass": "player",
+					"sid": 359245033986754,
+					"parameters": {
+						"animation": "\"normal\"",
+						"from": "beginning"
+					}
+				}
+			],
+			"sid": 995364891467251
+		},
+		{
+			"eventType": "block",
+			"conditions": [
+				{
+					"id": "every-x-seconds",
+					"objectClass": "System",
+					"sid": 172457170782149,
+					"parameters": {
+						"interval-seconds": "5"
+					}
+				}
+			],
+			"actions": [
+				{
+					"id": "set-visible",
+					"objectClass": "Texto",
+					"sid": 967380366495740,
+					"parameters": {
+						"visibility": "invisible"
+					}
+				}
+			],
+			"sid": 788350982538853
+		},
+		{
+			"eventType": "block",
+			"conditions": [
+				{
+					"id": "every-tick",
+					"objectClass": "System",
+					"sid": 999429580371668
+				}
+			],
+			"actions": [
+				{
+					"id": "set-text",
+					"objectClass": "numeroDeArtefatos",
+					"sid": 761023438628877,
+					"parameters": {
+						"text": "Artefatos"
+					}
+				},
+				{
+					"id": "set-text",
+					"objectClass": "Texto3",
+					"sid": 707726617446161,
+					"parameters": {
+						"text": "vida"
+					}
+				}
+			],
+			"sid": 115605051303574
+		},
+		{
+			"eventType": "block",
+			"conditions": [
+				{
+					"id": "every-x-seconds",
+					"objectClass": "System",
+					"sid": 395822671897956,
+					"parameters": {
+						"interval-seconds": "2"
+					}
+				}
+			],
+			"actions": [
+				{
+					"id": "find-path",
+					"objectClass": "inimigo_1",
+					"sid": 506292731779148,
+					"behaviorType": "ExploradorDeRotas",
+					"parameters": {
+						"x": "player.X",
+						"y": "player.y"
+					}
+				}
+			],
+			"sid": 389345583568438
+		},
+		{
+			"eventType": "block",
+			"conditions": [
+				{
+					"id": "on-path-found",
+					"objectClass": "inimigo_1",
+					"sid": 605055501651250,
+					"behaviorType": "ExploradorDeRotas"
+				}
+			],
+			"actions": [
+				{
+					"id": "move-along-path",
+					"objectClass": "inimigo_1",
+					"sid": 646902594076875,
+					"behaviorType": "ExploradorDeRotas"
+				}
+			],
+			"sid": 556851056030246
+		},
+		{
+			"eventType": "block",
+			"conditions": [
+				{
+					"id": "on-failed-to-find-path",
+					"objectClass": "inimigo_1",
+					"sid": 602429353991210,
+					"behaviorType": "ExploradorDeRotas"
+				}
+			],
+			"actions": [
+				{
+					"id": "find-path",
+					"objectClass": "inimigo_1",
+					"sid": 207351832190413,
+					"behaviorType": "ExploradorDeRotas",
+					"parameters": {
+						"x": "player.X",
+						"y": "player.Y"
+					}
+				}
+			],
+			"sid": 503006610224155
+		},
+		{
+			"eventType": "block",
+			"conditions": [
+				{
+					"id": "on-key-pressed",
+					"objectClass": "Teclado",
+					"sid": 706527366959621,
+					"parameters": {
+						"key": 32
+					}
+				}
+			],
+			"actions": [
+				{
+					"id": "create-object",
+					"objectClass": "System",
+					"sid": 573011891253316,
+					"parameters": {
+						"object-to-create": "tiro",
+						"layer": "0",
+						"x": "player.X",
+						"y": "player.Y",
+						"create-hierarchy": false,
+						"template-name": "\"\""
+					}
+				},
+				{
+					"id": "set-angle-of-motion",
+					"objectClass": "tiro",
+					"sid": 866530113174259,
+					"behaviorType": "Projétil",
+					"parameters": {
+						"angle": "player.Angle"
+					}
+				}
+			],
+			"sid": 209643897256655
+		},
+		{
+			"eventType": "block",
+			"conditions": [
+				{
+					"id": "is-outside-layout",
+					"objectClass": "tiro",
+					"sid": 736075511021582
+				}
+			],
+			"actions": [
+				{
+					"id": "destroy",
+					"objectClass": "tiro",
+					"sid": 116320742021646
+				}
+			],
+			"sid": 268537935048285
+		},
+		{
+			"eventType": "block",
+			"conditions": [
+				{
+					"id": "on-collision-with-another-object",
+					"objectClass": "tiro",
+					"sid": 346499083021999,
+					"parameters": {
+						"object": "inimigo_1"
+					}
+				}
+			],
+			"actions": [
+				{
+					"id": "destroy",
+					"objectClass": "inimigo_1",
+					"sid": 218367287508286
+				},
+				{
+					"id": "destroy",
+					"objectClass": "tiro",
+					"sid": 872220357276333
+				}
+			],
+			"sid": 376868309291130
+		},
+		{
+			"eventType": "block",
+			"conditions": [
+				{
+					"id": "on-destroyed",
+					"objectClass": "inimigo_1",
+					"sid": 133563855740289
+				}
+			],
+			"actions": [
+				{
+					"id": "create-object",
+					"objectClass": "System",
+					"sid": 511811117306173,
+					"parameters": {
+						"object-to-create": "coletavel",
+						"layer": "0",
+						"x": "inimigo_1.x",
+						"y": "inimigo_1.y",
+						"create-hierarchy": false,
+						"template-name": "\"\""
+					}
+				}
+			],
+			"sid": 971863651058843
+		},
+		{
+			"eventType": "block",
+			"conditions": [
+				{
+					"id": "on-collision-with-another-object",
+					"objectClass": "player",
+					"sid": 903120358426166,
+					"parameters": {
+						"object": "coletavel"
+					}
+				}
+			],
+			"actions": [
+				{
+					"id": "destroy",
+					"objectClass": "coletavel",
+					"sid": 795764880878220
+				},
+				{
+					"id": "set-size",
+					"objectClass": "player",
+					"sid": 913146228197278,
+					"parameters": {
+						"width": "player.Width+42",
+						"height": "player.Height+42"
+					}
+				},
+				{
+					"id": "add-to-eventvar",
+					"objectClass": "System",
+					"sid": 297435007837419,
+					"parameters": {
+						"variable": "Artefatos",
+						"value": "1"
+					}
+				}
+			],
+			"sid": 462101236670858
+		},
+		{
+			"eventType": "block",
+			"conditions": [
+				{
+					"id": "compare-eventvar",
+					"objectClass": "System",
+					"sid": 717527207241006,
+					"parameters": {
+						"variable": "vida",
+						"comparison": 0,
+						"value": "100"
+					}
+				}
+			],
+			"actions": [
+				{
+					"id": "set-progress",
+					"objectClass": "BarraDeProgresso",
+					"sid": 211212955163820,
+					"parameters": {
+						"value": "100"
+					}
+				}
+			],
+			"sid": 550371847966506
+		},
+		{
+			"eventType": "block",
+			"conditions": [
+				{
+					"id": "compare-eventvar",
+					"objectClass": "System",
+					"sid": 315814261021410,
+					"parameters": {
+						"variable": "vida",
+						"comparison": 0,
+						"value": "75"
+					}
+				}
+			],
+			"actions": [
+				{
+					"id": "set-progress",
+					"objectClass": "BarraDeProgresso",
+					"sid": 280888870047073,
+					"parameters": {
+						"value": "75"
+					}
+				}
+			],
+			"sid": 913621209975052
+		},
+		{
+			"eventType": "block",
+			"conditions": [
+				{
+					"id": "compare-eventvar",
+					"objectClass": "System",
+					"sid": 332277603184405,
+					"parameters": {
+						"variable": "vida",
+						"comparison": 0,
+						"value": "50"
+					}
+				}
+			],
+			"actions": [
+				{
+					"id": "set-progress",
+					"objectClass": "BarraDeProgresso",
+					"sid": 204597991439574,
+					"parameters": {
+						"value": "50"
+					}
+				}
+			],
+			"sid": 202873396828883
+		},
+		{
+			"eventType": "block",
+			"conditions": [
+				{
+					"id": "compare-eventvar",
+					"objectClass": "System",
+					"sid": 566622543208917,
+					"parameters": {
+						"variable": "vida",
+						"comparison": 0,
+						"value": "25"
+					}
+				}
+			],
+			"actions": [
+				{
+					"id": "set-progress",
+					"objectClass": "BarraDeProgresso",
+					"sid": 992235955165026,
+					"parameters": {
+						"value": "25"
+					}
+				}
+			],
+			"sid": 983769317619057
+		},
+		{
+			"eventType": "block",
+			"conditions": [
+				{
+					"id": "every-x-seconds",
+					"objectClass": "System",
+					"sid": 802499105338942,
+					"parameters": {
+						"interval-seconds": "3"
+					}
+				}
+			],
+			"actions": [
+				{
+					"id": "create-object",
+					"objectClass": "System",
+					"sid": 971922811967710,
+					"parameters": {
+						"object-to-create": "inimigo_1",
+						"layer": "0",
+						"x": "spawner_1.X",
+						"y": "spawner_1.y",
+						"create-hierarchy": false,
+						"template-name": "\"inimigo_1\""
+					}
+				},
+				{
+					"id": "create-object",
+					"objectClass": "System",
+					"sid": 158808242469029,
+					"parameters": {
+						"object-to-create": "inimigo_1",
+						"layer": "0",
+						"x": "spawner_2.X",
+						"y": "spawner_2.y",
+						"create-hierarchy": false,
+						"template-name": "\"inimigo_1\""
+					}
+				},
+				{
+					"id": "create-object",
+					"objectClass": "System",
+					"sid": 328888941818734,
+					"parameters": {
+						"object-to-create": "inimigo_1",
+						"layer": "0",
+						"x": "spawner_3.X",
+						"y": "spawner_3.y",
+						"create-hierarchy": false,
+						"template-name": "\"inimigo_1\""
+					}
+				},
+				{
+					"id": "create-object",
+					"objectClass": "System",
+					"sid": 377255326235118,
+					"parameters": {
+						"object-to-create": "inimigo_1",
+						"layer": "0",
+						"x": "spawner_4.X",
+						"y": "spawner_4.y",
+						"create-hierarchy": false,
+						"template-name": "\"inimigo_1\""
+					}
+				}
+			],
+			"sid": 929328590494555
+		},
+		{
+			"eventType": "block",
+			"conditions": [
+				{
+					"id": "is-flashing",
+					"objectClass": "player",
+					"sid": 342692965783666,
+					"behaviorType": "Piscar"
+				}
+			],
+			"actions": [
+				{
+					"id": "set-group-active",
+					"objectClass": "System",
+					"sid": 760126090134816,
+					"parameters": {
+						"group-name": "\"DanoPlayer\"",
+						"state": "deactivated"
+					}
+				}
+			],
+			"sid": 638676370997581
+		},
+		{
+			"eventType": "block",
+			"conditions": [
+				{
+					"id": "on-flash-ended",
+					"objectClass": "player",
+					"sid": 231663175819762,
+					"behaviorType": "Piscar"
+				}
+			],
+			"actions": [
+				{
+					"id": "set-group-active",
+					"objectClass": "System",
+					"sid": 411262839227248,
+					"parameters": {
+						"group-name": "\"DanoPlayer\"",
+						"state": "activated"
+					}
+				}
+			],
+			"sid": 887614649725613
+		},
+		{
+			"eventType": "group",
+			"disabled": false,
+			"title": "DanoPlayer",
+			"description": "",
+			"isActiveOnStart": true,
+			"children": [
+				{
+					"eventType": "block",
+					"conditions": [
+						{
+							"id": "on-collision-with-another-object",
+							"objectClass": "inimigo_1",
+							"sid": 762638312475367,
+							"parameters": {
+								"object": "player"
+							}
+						}
+					],
+					"actions": [
+						{
+							"id": "subtract-from-eventvar",
+							"objectClass": "System",
+							"sid": 859877801322691,
+							"parameters": {
+								"variable": "vida",
+								"value": "10"
+							}
+						},
+						{
+							"id": "flash",
+							"objectClass": "player",
+							"sid": 252670386102777,
+							"behaviorType": "Piscar",
+							"parameters": {
+								"on-time": "0.1",
+								"off-time": "0.1",
+								"duration": "1.0"
+							}
+						}
+					],
+					"sid": 990847874364014
+				}
+			],
+			"sid": 392141007533445
+		},
+		{
+			"eventType": "block",
+			"conditions": [
+				{
+					"id": "compare-eventvar",
+					"objectClass": "System",
+					"sid": 591040175151731,
+					"parameters": {
+						"variable": "vida",
+						"comparison": 3,
+						"value": "0"
+					}
+				}
+			],
+			"actions": [
+				{
+					"id": "restart-layout",
+					"objectClass": "System",
+					"sid": 892317640567486
+				},
+				{
+					"id": "reset-global-variables",
+					"objectClass": "System",
+					"sid": 496850696200419
+				}
+			],
+			"sid": 805785651647599
+		},
+		{
+			"eventType": "block",
+			"conditions": [
+				{
+					"id": "compare-eventvar",
+					"objectClass": "System",
+					"sid": 470533580205300,
+					"parameters": {
+						"variable": "Artefatos",
+						"comparison": 0,
+						"value": "10"
+					}
+				}
+			],
+			"actions": [
+				{
+					"id": "restart-layout",
+					"objectClass": "System",
+					"sid": 243460295244439
+				},
+				{
+					"id": "reset-global-variables",
+					"objectClass": "System",
+					"sid": 399913225284373
+				}
+			],
+			"sid": 687213177008935
+		}
+	],
+	"sid": 412025450599114
+}
